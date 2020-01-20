@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+
+  # Tour CRUD
+  tour-crud:
+    image: tour/crud-service
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+
+
+  # Tour CRUD Database (Postgresql)
+  postgres:
+    image: postgres:11.5
+    ports:
+      - "5555:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: touradmin
+      POSTGRES_PASSWORD: touradmin
+      POSTGRES_DB: Tours
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
